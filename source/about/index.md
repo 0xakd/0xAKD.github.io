@@ -22,3 +22,4 @@ I’m currently building foundational skills in programming and development, and
 email: helloajaydey@gmail.com
 linkedIn: https://www.linkedin.com/in/heypolygot/
 GitHub: https://www.github.com/heypolygot/
+
