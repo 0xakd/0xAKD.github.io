@@ -106,5 +106,5 @@ theme: Chic
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   type: git
-  repo: https://github.com/heypolygot/my_website.git
+  repo: https://github.com/heypolygot/heypolygot.github.io.git
   branch: gh-pages
