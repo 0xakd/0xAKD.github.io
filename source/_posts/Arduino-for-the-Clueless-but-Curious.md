@@ -5,7 +5,7 @@ tags:
 ---
 
 
-![cover page](images/coverpage.jpeg)
+![cover page](../images/coverpage.jpeg)
 
 > “Ever wished you could build your own robot or control lights with just a few lines of code?”
 
@@ -17,7 +17,7 @@ You don’t need to be a coding genius to start. If you’ve ever plugged in a U
 ## What is Arduino???
 Arduino is an italian open-source electronics platform based on easy-to-use hardware and software. Arduino consists of both a physical programmable circuit board (often referred to as a microcontroller) and a piece of software or IDE (Integrated Development Environment) that runs on your computer, used to write and upload code to the physical board. 
 
-![Arduino Board](images/labeledboard.jpeg) 
+![Arduino Board](../images/labeledboard.jpeg) 
 <center><i>This is an Arduino Uno Board</i></center>
 
 ---
@@ -55,7 +55,7 @@ Just like other code editors, the Arduino IDE provides a user-friendly interface
 
 You can download the IDE from the **[official Arduino website](https://www.arduino.cc/en/software)**, and it's completely free to use.
 
-![Arduino IDE](images/arduino_ide.jpeg)
+![Arduino IDE](../images/arduino_ide.jpeg)
 <center><i>Screenshot of Arduino IDE.</i></center>
 <br>
 
@@ -83,7 +83,7 @@ Serial.begin(9600);
 Serial.println("Hello World");
 
 ```
-![Arduino Serial Monitor](images/serial_monitor.jpeg)
+![Arduino Serial Monitor](../images/serial_monitor.jpeg)
 <center><i>Screenshot of Arduino Serial Monitor</i></center>
 
 
@@ -137,7 +137,7 @@ void loop() {
 ```
 Before uploading your code to the Arduino, let’s first build the circuit.
 
-![LED Blink Circuit](images/ledcircuit.png)
+![LED Blink Circuit](../images/ledcircuit.png)
 <center><i>Circuit for Blinking LED</i></center>
 
 Once your circuit is ready, connect your Arduino to your computer. In the Arduino IDE, select the correct board type and COM port from the Tools menu. Click the "Upload" button to transfer your sketch to the Arduino. If everything is set up correctly, the built-in LED on pin 13 will start blinking on and off each second.
