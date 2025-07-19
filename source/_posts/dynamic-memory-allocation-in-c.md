@@ -5,7 +5,7 @@ tags:
   - dynamic-memory-allocation
 categories:
   - software
-date: 2025-07-19 16:51:34
+date: 2025-01-05 16:51:34
 ---
 
 
