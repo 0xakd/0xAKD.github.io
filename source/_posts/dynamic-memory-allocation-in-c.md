@@ -12,7 +12,6 @@ date: 2025-07-19 16:51:34
 
 ![cover pic](../images/dynamic-memory-allocation-in-c/coverpage.jpeg)
 
-## Dynamic Memory Allocation in C
 Before jumping to Dynamic memory allocation we need to know about how the memory is used by a program in C.
 
 There are 4 memory segments :-
