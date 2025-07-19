@@ -4,7 +4,6 @@ tags:
   - C
   - dynamic-memory-allocation
 categories:
-  - programming
   - software
 date: 2025-07-19 16:51:34
 ---

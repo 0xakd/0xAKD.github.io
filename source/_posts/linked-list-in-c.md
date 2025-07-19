@@ -5,7 +5,6 @@ tags:
   - dynamic-memory-allocation
 categories:
   - software
-  - DSA
 date: 2025-07-19 17:56:20
 ---
 

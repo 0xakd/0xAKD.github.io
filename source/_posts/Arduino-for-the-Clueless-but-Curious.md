@@ -6,8 +6,6 @@ tags:
     - basics
     - DIY
 categories:
-    - electronics
-    - embedded-systems
     - hardware 
 ---
 
