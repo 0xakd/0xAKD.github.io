@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Ajay Kumar Dey">
+
+
+
+    <meta name="description" content="Welcome to my personal tech journal — a space where I share everything I am learning, building, and exploring. From coding projects to productivity tips, this blog documents my journey through the world of technology and creativity.">
+
+
+
+<title>Linked List in C | AD&#39;s Logs</title>
+
+
+
+    <link rel="icon" href="/image/mushroom.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="AD's Logs" type="application/atom+xml">
+</head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const pagebody = document.getElementsByTagName('body')[0]
+
+            function setTheme(status) {
+
+                if (status === 'dark') {
+                    window.sessionStorage.theme = 'dark'
+                    pagebody.classList.add('dark-theme');
+
+                } else if (status === 'light') {
+                    window.sessionStorage.theme = 'light'
+                    pagebody.classList.remove('dark-theme');
+                }
+            };
+
+            setTheme(window.sessionStorage.theme)
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">AD&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                <a class="menu-item" href="/">Home</a>
+                
+                <a class="menu-item" href="/archives">Posts</a>
+                
+                <a class="menu-item" href="/category">Categories</a>
+                
+                <a class="menu-item" href="/tag">Tags</a>
+                
+                <a class="menu-item" href="/about">About</a>
+                
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">AD&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">
+                    <svg class="menu-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M4.5 17.27q-.213 0-.356-.145T4 16.768t.144-.356t.356-.143h15q.213 0 .356.144q.144.144.144.357t-.144.356t-.356.143zm0-4.77q-.213 0-.356-.144T4 11.999t.144-.356t.356-.143h15q.213 0 .356.144t.144.357t-.144.356t-.356.143zm0-4.77q-.213 0-.356-.143Q4 7.443 4 7.23t.144-.356t.356-.143h15q.213 0 .356.144T20 7.23t-.144.356t-.356.144z"/></svg>
+                    <svg class="close-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Material Symbols Light by Google - https://github.com/google/material-design-icons/blob/master/LICENSE --><path fill="currentColor" d="m12 12.708l-5.246 5.246q-.14.14-.344.15t-.364-.15t-.16-.354t.16-.354L11.292 12L6.046 6.754q-.14-.14-.15-.344t.15-.364t.354-.16t.354.16L12 11.292l5.246-5.246q.14-.14.345-.15q.203-.01.363.15t.16.354t-.16.354L12.708 12l5.246 5.246q.14.14.15.345q.01.203-.15.363t-.354.16t-.354-.16z"/></svg>
+                </div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                <a class="menu-item" href="/">Home</a>
+                
+                <a class="menu-item" href="/archives">Posts</a>
+                
+                <a class="menu-item" href="/category">Categories</a>
+                
+                <a class="menu-item" href="/tag">Tags</a>
+                
+                <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if (toggleMenu.classList.contains("active")) {
+            toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        } else {
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Linked List in C</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Ajay Kumar Dey</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">January 9, 2025&nbsp;&nbsp;17:56:20</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/software/">software</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p><img src="/../images/linked-list-in-c/image.png" alt="cover image"></p>
+<h3 id="What-is-a-Linked-List"><a href="#What-is-a-Linked-List" class="headerlink" title="What is a Linked List ??"></a>What is a Linked List ??</h3><p>A <strong>linked list</strong> is a dynamic data structure used to store a sequence of elements. Unlike arrays, linked lists do not store elements in contiguous memory locations. Instead, each element, known as a node, consists of two parts: Data and a Pointer to the next Node.</p>
+<h3 id="Components-of-a-Linked-List"><a href="#Components-of-a-Linked-List" class="headerlink" title="Components of a Linked List"></a>Components of a Linked List</h3><p>Linked lists consists of 3 components :-</p>
+<ul>
+<li><p><strong>Node</strong>: A node is the building block of a linked list. it further consists of two parts, which are:-</p>
+<ul>
+<li><p><strong>Data</strong>: A variable containing the value of the node</p>
+</li>
+<li><p><strong>Next</strong>: A pointer pointing to the next node.</p>
+</li>
+</ul>
+</li>
+<li><p><strong>Head</strong>: The head is a pointer variable which points to the first node of the list.</p>
+</li>
+<li><p><strong>Tail</strong>: The last node of the list, which points to null.</p>
+</li>
+</ul>
+<h2 id="Structure-of-the-linked-list"><a href="#Structure-of-the-linked-list" class="headerlink" title="Structure of the linked list"></a>Structure of the linked list</h2><p><img src="/../images/linked-list-in-c/image2.png" alt="structure diagram"></p>
+<h3 id="Making-the-structure-of-the-Linked-list"><a href="#Making-the-structure-of-the-Linked-list" class="headerlink" title="Making the structure of the Linked list."></a>Making the structure of the Linked list.</h3><p>Code for making the structure of linked list.</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Structure of Linked list.</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">node</span>&#123;</span></span><br><span class="line">	<span class="type">int</span> value;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">node</span> *<span class="title">next</span>;</span></span><br><span class="line">&#125;Node;</span><br></pre></td></tr></table></figure>
+
+<p>In the above code, we have made a structure which consist of 2 variables: value and next. The value is of type int, so it will store integer values, and the next variable is a pointer variable which is a pointer which will point to next node (if present) or NULL.</p>
+<h2 id="Basic-operations-with-Linked-Lists"><a href="#Basic-operations-with-Linked-Lists" class="headerlink" title="Basic operations with Linked Lists"></a>Basic operations with Linked Lists</h2><h3 id="Insertion"><a href="#Insertion" class="headerlink" title="Insertion"></a>Insertion</h3><p>In this operation we will learn how to add more nodes to the Linked list. There are several ways by which we can do that:-</p>
+<ul>
+<li><strong>Insertion at head -</strong></li>
+</ul>
+<p>Insertion at head means to make a new node and add it at the beginning of the linked list i.e. make the new node the first node of the list. And make the head point to the new node and the new node to the node which was previously pointed by the head.</p>
+<p>Refer to the picture below for better understanding.<br><img src="/../images/linked-list-in-c/image3.png" alt="insertion at head"></p>
+<p>As you can see in the above picture we’ve inserted a new node and made the head now pointing the new node. Lets see how we can write it in C language:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="comment">//Function for inserting new node at the starting of the list.</span></span><br><span class="line">Node *<span class="title function_">insert_at_head</span><span class="params">(Node *head,<span class="type">int</span> new_value)</span>&#123;</span><br><span class="line">	Node *newnode = <span class="built_in">calloc</span>(<span class="number">1</span>,<span class="keyword">sizeof</span>(Node));	</span><br><span class="line">	newnode -&gt; value = new_value;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">if</span> (head == <span class="literal">NULL</span>) <span class="keyword">return</span> newnode;</span><br><span class="line">	<span class="keyword">else</span>&#123;</span><br><span class="line">		newnode -&gt; next = head;</span><br><span class="line">		<span class="keyword">return</span> newnode;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">main</span><span class="params">()</span>&#123;</span><br><span class="line">	Node *list1_head = <span class="literal">NULL</span>;</span><br><span class="line">	</span><br><span class="line">	list1_head = insert_at_head(list1_head, <span class="number">2</span>);</span><br><span class="line">	</span><br><span class="line">	print_node(list1_head); <span class="comment">//we will learn to print nodes later.</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>Insertion at tail -</strong><br>In this, we make a new node and insert it after the last node of the linked list. And Modify the previous tail node to the new node.<br><img src="/../images/linked-list-in-c/image4.png" alt="insertion at tail"></li>
+</ul>
+<p>We can write it in codes as -</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">//Function for inserting new tail node.</span></span><br><span class="line">Node *<span class="title function_">insert_at_tail</span><span class="params">(Node *head,<span class="type">int</span> new_value)</span>&#123;</span><br><span class="line">	Node *new_node = <span class="built_in">calloc</span>(<span class="number">1</span>,<span class="keyword">sizeof</span>(Node));	</span><br><span class="line">	new_node -&gt; value = new_value;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">if</span> (head == <span class="literal">NULL</span>) <span class="keyword">return</span> new_node;</span><br><span class="line">	<span class="keyword">else</span>&#123;</span><br><span class="line">		Node *current = head;</span><br><span class="line">		<span class="keyword">while</span> (current -&gt; next != <span class="literal">NULL</span>) current = current -&gt; next; </span><br><span class="line">		current -&gt; next = new_node;</span><br><span class="line">		<span class="keyword">return</span> head;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">main</span><span class="params">()</span>&#123;</span><br><span class="line">	Node *head = <span class="literal">NULL</span>;</span><br><span class="line">	</span><br><span class="line">	head = insert_at_tail(head, <span class="number">2</span>);</span><br><span class="line">	head = insert_at_tail(head, <span class="number">4</span>);</span><br><span class="line"></span><br><span class="line">	print_node(head);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>Insertion after any node.</strong><br>In this, we take a new node value and a node after which we want to place the new node. And place the new node after that node and make that node point the new node and the new node point the next node.</li>
+</ul>
+<p>Like this,<br><img src="/../images/linked-list-in-c/image5.png" alt="insertion after node"></p>
+<p>We can write this in C language as…</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">//Function for inserting new nodes between 2 nodes.</span></span><br><span class="line">Node *<span class="title function_">insert_after</span><span class="params">(Node *head, <span class="type">int</span> new_value, <span class="type">int</span> after_value)</span>&#123;</span><br><span class="line">	Node *new_node = <span class="built_in">calloc</span>(<span class="number">1</span>, <span class="keyword">sizeof</span>(Node));</span><br><span class="line">	new_node -&gt; value = new_value;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">if</span> (head == <span class="literal">NULL</span>) <span class="keyword">return</span> new_node;</span><br><span class="line">	<span class="keyword">else</span>&#123;</span><br><span class="line">		Node *current = head;</span><br><span class="line">		<span class="keyword">while</span> (current -&gt; next != <span class="literal">NULL</span>)&#123;</span><br><span class="line">			<span class="keyword">if</span> (current -&gt; value == after_value)&#123;</span><br><span class="line">				new_node -&gt; next = current -&gt; next;</span><br><span class="line">				current -&gt; next = new_node;</span><br><span class="line">				<span class="keyword">return</span> head;</span><br><span class="line">			&#125;<span class="keyword">else</span> current = current -&gt; next;</span><br><span class="line">		&#125;</span><br><span class="line">		new_node -&gt; next = current -&gt; next;</span><br><span class="line">		current -&gt; next = new_node;</span><br><span class="line">		<span class="keyword">return</span> head;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">main</span><span class="params">()</span>&#123;</span><br><span class="line">	Node *head = <span class="literal">NULL</span>;</span><br><span class="line">	</span><br><span class="line">	head = insert_at_tail(head, <span class="number">2</span>);  <span class="comment">//function not included in this code.</span></span><br><span class="line">	head = insert_at_tail(head, <span class="number">4</span>);  <span class="comment">//function not included in this code.</span></span><br><span class="line">    head = insert_at_tail(head, <span class="number">6</span>);  <span class="comment">//function not included in this code.</span></span><br><span class="line">    head = insert_at_tail(head, <span class="number">8</span>);  <span class="comment">//function not included in this code.</span></span><br><span class="line">    head = insert_at_tail(head, <span class="number">10</span>); <span class="comment">//function not included in this code.</span></span><br><span class="line">    head = insert_at_tail(head, <span class="number">12</span>); <span class="comment">//function not included in this code.</span></span><br><span class="line">		</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;List before insertion:&quot;</span>);</span><br><span class="line">	print_node(head);                <span class="comment">//function not included in this code.</span></span><br><span class="line">	</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;List after insertion:&quot;</span>);</span><br><span class="line">	insert_after(head, <span class="number">20</span>, <span class="number">6</span>);</span><br><span class="line">	print_node(head);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*Output</span></span><br><span class="line"><span class="comment">List before insertion:Node 0 = 2</span></span><br><span class="line"><span class="comment">Node 1 = 4</span></span><br><span class="line"><span class="comment">Node 2 = 6</span></span><br><span class="line"><span class="comment">Node 3 = 8</span></span><br><span class="line"><span class="comment">Node 4 = 10</span></span><br><span class="line"><span class="comment">Node 5 = 12</span></span><br><span class="line"><span class="comment">List after insertion:Node 0 = 2</span></span><br><span class="line"><span class="comment">Node 1 = 4</span></span><br><span class="line"><span class="comment">Node 2 = 6</span></span><br><span class="line"><span class="comment">Node 3 = 20</span></span><br><span class="line"><span class="comment">Node 4 = 8</span></span><br><span class="line"><span class="comment">Node 5 = 10</span></span><br><span class="line"><span class="comment">Node 6 = 12</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Deletion"><a href="#Deletion" class="headerlink" title="Deletion"></a>Deletion</h3><p>Deletion here means to delete a remove a node from a linked list and free its memory with the use of the free() function. Some ways of deletion are as follows:</p>
+<ul>
+<li><strong>Deletion at head</strong><br>It means to delete the first node of the linked list, and modify the head to point the next node.<br><img src="/../images/linked-list-in-c/image6.png" alt="deletion at head"></li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">//Function for deleting the head of linked list.</span></span><br><span class="line">Node *<span class="title function_">delete_head</span><span class="params">(Node *head)</span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (head == <span class="literal">NULL</span>) <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">	<span class="keyword">else</span>&#123;</span><br><span class="line">		Node *to_return = head -&gt; next;</span><br><span class="line">		<span class="built_in">free</span>(head);</span><br><span class="line">		<span class="keyword">return</span> to_return;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">main</span><span class="params">()</span>&#123;</span><br><span class="line">	Node *list1_head = <span class="literal">NULL</span>;</span><br><span class="line">	</span><br><span class="line">	list1_head = insert_at_head(list1_head, <span class="number">2</span>);</span><br><span class="line">	</span><br><span class="line">	print_node(list1_head);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<ul>
+<li><strong>Deletion at tail.</strong></li>
+</ul>
+<p>Deleting the last node of the linked list. We have to just free the last node and we’re done.<br><img src="/../images/linked-list-in-c/image7.png" alt="deletion at tail"></p>
+<p>Here is the code for doing that,</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Function for deleting the tail node of linked list.</span></span><br><span class="line">Node *<span class="title function_">delete_tail</span><span class="params">(Node *head)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (head == <span class="literal">NULL</span>) <span class="keyword">return</span> <span class="literal">NULL</span>; <span class="comment">// Empty list.</span></span><br><span class="line">    <span class="keyword">if</span> (head-&gt;next == <span class="literal">NULL</span>) &#123;      <span class="comment">// Only one node in the list.</span></span><br><span class="line">        <span class="built_in">free</span>(head);</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    Node *current = head;</span><br><span class="line">    <span class="keyword">while</span> (current-&gt;next-&gt;next != <span class="literal">NULL</span>) &#123;</span><br><span class="line">        current = current-&gt;next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">free</span>(current-&gt;next);</span><br><span class="line">    current-&gt;next = <span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">return</span> head;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    Node *list1_head = <span class="literal">NULL</span>;</span><br><span class="line"></span><br><span class="line">    list1_head = insert_at_head(list1_head, <span class="number">3</span>);</span><br><span class="line">    list1_head = insert_at_head(list1_head, <span class="number">2</span>);</span><br><span class="line">    list1_head = insert_at_head(list1_head, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Linked list before deleting tail:\n&quot;</span>);</span><br><span class="line">    print_node(list1_head);</span><br><span class="line"></span><br><span class="line">    list1_head = delete_tail(list1_head);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;\nLinked list after deleting tail:\n&quot;</span>);</span><br><span class="line">    print_node(list1_head);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<ul>
+<li><strong>Deleting first matching element</strong><br>In this we’ll take an input from the user and delete the matching node from the linked list. if no node matches the input then it will delete nothing.<br><img src="/../images/linked-list-in-c/image8.png" alt="deleting first matching element"></li>
+</ul>
+<p>lets write a code for that,</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">//Function for First Matching Node.</span></span><br><span class="line">Node *<span class="title function_">delete_first_match</span><span class="params">(Node *head, <span class="type">int</span> delete_value, <span class="type">bool</span> *was_deleted)</span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (head==<span class="literal">NULL</span>)&#123;</span><br><span class="line">		*was_deleted = <span class="literal">false</span>;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">if</span> (head-&gt;value == delete_value)&#123;</span><br><span class="line">		Node *temp = head-&gt;next;</span><br><span class="line">		<span class="built_in">free</span>(head);</span><br><span class="line">		*was_deleted = <span class="literal">true</span>;</span><br><span class="line">		<span class="keyword">return</span> temp;</span><br><span class="line">	&#125;</span><br><span class="line">		</span><br><span class="line">	Node *current = head-&gt;next;</span><br><span class="line">	Node *prev = head;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">while</span> (current != <span class="literal">NULL</span>)&#123;</span><br><span class="line">		<span class="keyword">if</span> (current -&gt; value == delete_value)&#123;</span><br><span class="line">			prev-&gt;next = current -&gt; next;</span><br><span class="line">			<span class="built_in">free</span>(current);</span><br><span class="line">			*was_deleted = <span class="literal">true</span>;</span><br><span class="line">			<span class="keyword">return</span> head;	</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		prev = current;</span><br><span class="line">		current = current -&gt; next;</span><br><span class="line">	&#125;</span><br><span class="line">	*was_deleted = <span class="literal">false</span>;</span><br><span class="line">	<span class="keyword">return</span> head;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">	Node *head = <span class="literal">NULL</span>;</span><br><span class="line"></span><br><span class="line">	head = insert_at_head(head, <span class="number">7</span>);	</span><br><span class="line">        head = insert_at_head(head, <span class="number">5</span>);</span><br><span class="line">        head = insert_at_head(head, <span class="number">3</span>);</span><br><span class="line">        head = insert_at_head(head, <span class="number">6</span>);</span><br><span class="line">        head = insert_at_head(head, <span class="number">1</span>);</span><br><span class="line">        head = insert_at_head(head, <span class="number">3</span>);</span><br><span class="line">        head = insert_at_head(head, <span class="number">2</span>);</span><br><span class="line">        head = insert_at_head(head, <span class="number">8</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="type">int</span> del_num;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Enter a number to delete:&quot;</span>);</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;del_num);</span><br><span class="line"></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;List before Deletion\n&quot;</span>);</span><br><span class="line">	print_Node(head);</span><br><span class="line">	</span><br><span class="line">	<span class="type">bool</span> deleted;</span><br><span class="line">	head = delete_first_match(head,del_num,&amp;deleted);</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">if</span> (deleted)&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;List after Deletion:\n&quot;</span>);</span><br><span class="line">		print_Node(head);</span><br><span class="line">	&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;value not found:\n&quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*Output</span></span><br><span class="line"><span class="comment">Enter a number to delete:3</span></span><br><span class="line"><span class="comment">List before Deletion</span></span><br><span class="line"><span class="comment">Node 1 = 8</span></span><br><span class="line"><span class="comment">Node 2 = 2</span></span><br><span class="line"><span class="comment">Node 3 = 3</span></span><br><span class="line"><span class="comment">Node 4 = 1</span></span><br><span class="line"><span class="comment">Node 5 = 6</span></span><br><span class="line"><span class="comment">Node 6 = 3</span></span><br><span class="line"><span class="comment">Node 7 = 5</span></span><br><span class="line"><span class="comment">Node 8 = 7</span></span><br><span class="line"><span class="comment">List after Deletion:</span></span><br><span class="line"><span class="comment">Node 1 = 8</span></span><br><span class="line"><span class="comment">Node 2 = 2</span></span><br><span class="line"><span class="comment">Node 3 = 1</span></span><br><span class="line"><span class="comment">Node 4 = 6</span></span><br><span class="line"><span class="comment">Node 5 = 3</span></span><br><span class="line"><span class="comment">Node 6 = 5</span></span><br><span class="line"><span class="comment">Node 7 = 7</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Traversing"><a href="#Traversing" class="headerlink" title="Traversing"></a>Traversing</h3><p><strong>Traversing</strong> a linked list means accessing and processing each node of the linked list exactly once, starting from the head node and following the links (pointers) to reach each subsequent node until the end.</p>
+<ul>
+<li><strong>Printing nodes</strong><br>A very simple use of traversing a linked list is Printing all the nodes. Lets see how we can traverse our linked list and print each node’s data.</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">//Function for printing a Node.</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">print_Node</span> <span class="params">(Node *head)</span>&#123;</span><br><span class="line">	Node *current;</span><br><span class="line">	current = head;</span><br><span class="line">	</span><br><span class="line">	<span class="type">int</span> i = <span class="number">1</span>;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">while</span> (current != <span class="literal">NULL</span>)&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;Node %d = %d\n&quot;</span>, i,current-&gt;value);</span><br><span class="line">		i++;</span><br><span class="line">		current = current -&gt; next;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">	Node a,b,c;</span><br><span class="line"></span><br><span class="line">	a.value=<span class="number">5</span>;</span><br><span class="line">	a.next=&amp;b;</span><br><span class="line"></span><br><span class="line">	b.value=<span class="number">10</span>;</span><br><span class="line">	b.next=&amp;c;</span><br><span class="line"></span><br><span class="line">	c.value=<span class="number">15</span>;</span><br><span class="line">	c.next=<span class="literal">NULL</span>;	</span><br><span class="line">	</span><br><span class="line">	print_Node(&amp;a);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*Output</span></span><br><span class="line"><span class="comment">Node 1 = 5</span></span><br><span class="line"><span class="comment">Node 2 = 10</span></span><br><span class="line"><span class="comment">Node 3 = 15 </span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Why-use-Linked-Lists-rather-than-Arrays"><a href="#Why-use-Linked-Lists-rather-than-Arrays" class="headerlink" title="Why use Linked Lists rather than Arrays ??"></a>Why use Linked Lists rather than Arrays ??</h2><p>Linked lists are often preferred over arrays in dynamic memory allocation like arrays, which have a fixed size, linked lists are dynamic structures that grow or shrink as needed without requiring contiguous memory blocks.</p>
+<h3 id="Advantages-of-Linked-Lists-over-Arrays"><a href="#Advantages-of-Linked-Lists-over-Arrays" class="headerlink" title="Advantages of Linked Lists over Arrays :"></a>Advantages of Linked Lists over Arrays :</h3><p><strong>Dynamic Size:</strong><br>In Linked lists we can dynamically adjust their size during runtime of the program, instead of declaring a fixed size at the beginning.</p>
+<p><strong>Efficient Insertions&#x2F;Deletions:</strong><br>Inserting or deleting elements in a linked list is more efficient than array as it requires updating pointers, while arrays require shifting elements.</p>
+<p><strong>No Wasted Space:</strong><br>Linked lists do not require reserving extra memory in the beginning, unlike arrays which might have unused elements if their size is estimated more.</p>
+<p><strong>Non-Contiguous Memory Allocation:</strong><br>Linked lists do not require memory to be allocated in a single block, making them more adaptable for dynamic memory allocation.</p>
+<h2 id="Source-Code"><a href="#Source-Code" class="headerlink" title="Source Code:-"></a>Source Code:-</h2><p>🧠 Now that you’ve seen how the linked list works, you can check out the complete code here:<br>🔗 <a target="_blank" rel="noopener" href="https://github.com/0xAKD/linked-list-c">View Full Source Code on GitHub</a></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Ajay Kumar Dey</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://0xakd.github.io/2025/01/09/linked-list-in-c/">https://0xakd.github.io/2025/01/09/linked-list-in-c/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2025 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/dynamic-memory-allocation/"># dynamic-memory-allocation</a>
+                    
+                        <a href="/tags/linked-list/"># linked-list</a>
+                    
+                        <a href="/tags/c-programming/"># c-programming</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2025/07/17/Arduino-for-the-Clueless-but-Curious/">Arduino for the Clueless (but Curious)</a>
+            
+            
+            <a class="next" rel="next" href="/2025/01/05/dynamic-memory-allocation-in-c/">Dynamic Memory Allocation in C</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>  Copyright © 2020-2025 Ajay Kumar Dey</span>
+    </div>
+</footer>
+
+    </div>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+
+</html>

@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Ajay Kumar Dey">
+
+
+
+    <meta name="description" content="Welcome to my personal tech journal — a space where I share everything I am learning, building, and exploring. From coding projects to productivity tips, this blog documents my journey through the world of technology and creativity.">
+
+
+
+<title>Learn Go from Scratch | AD&#39;s Logs</title>
+
+
+
+    <link rel="icon" href="/image/mushroom.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="AD's Logs" type="application/atom+xml">
+</head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const pagebody = document.getElementsByTagName('body')[0]
+
+            function setTheme(status) {
+
+                if (status === 'dark') {
+                    window.sessionStorage.theme = 'dark'
+                    pagebody.classList.add('dark-theme');
+
+                } else if (status === 'light') {
+                    window.sessionStorage.theme = 'light'
+                    pagebody.classList.remove('dark-theme');
+                }
+            };
+
+            setTheme(window.sessionStorage.theme)
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">AD&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                <a class="menu-item" href="/">Home</a>
+                
+                <a class="menu-item" href="/archives">Posts</a>
+                
+                <a class="menu-item" href="/category">Categories</a>
+                
+                <a class="menu-item" href="/tag">Tags</a>
+                
+                <a class="menu-item" href="/about">About</a>
+                
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">AD&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">
+                    <svg class="menu-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M4.5 17.27q-.213 0-.356-.145T4 16.768t.144-.356t.356-.143h15q.213 0 .356.144q.144.144.144.357t-.144.356t-.356.143zm0-4.77q-.213 0-.356-.144T4 11.999t.144-.356t.356-.143h15q.213 0 .356.144t.144.357t-.144.356t-.356.143zm0-4.77q-.213 0-.356-.143Q4 7.443 4 7.23t.144-.356t.356-.143h15q.213 0 .356.144T20 7.23t-.144.356t-.356.144z"/></svg>
+                    <svg class="close-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Material Symbols Light by Google - https://github.com/google/material-design-icons/blob/master/LICENSE --><path fill="currentColor" d="m12 12.708l-5.246 5.246q-.14.14-.344.15t-.364-.15t-.16-.354t.16-.354L11.292 12L6.046 6.754q-.14-.14-.15-.344t.15-.364t.354-.16t.354.16L12 11.292l5.246-5.246q.14-.14.345-.15q.203-.01.363.15t.16.354t-.16.354L12.708 12l5.246 5.246q.14.14.15.345q.01.203-.15.363t-.354.16t-.354-.16z"/></svg>
+                </div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                <a class="menu-item" href="/">Home</a>
+                
+                <a class="menu-item" href="/archives">Posts</a>
+                
+                <a class="menu-item" href="/category">Categories</a>
+                
+                <a class="menu-item" href="/tag">Tags</a>
+                
+                <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if (toggleMenu.classList.contains("active")) {
+            toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        } else {
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Learn Go from Scratch</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Ajay Kumar Dey</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">July 3, 2024&nbsp;&nbsp;22:03:35</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/software/">software</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p><img src="/../images/learn-go-from-scratch/image.png" alt="cover image"></p>
+<h2 id="How-to-Download-and-install-go-in-your-device"><a href="#How-to-Download-and-install-go-in-your-device" class="headerlink" title="How to Download and install go in your device"></a>How to Download and install go in your device</h2><h2 id="Downloading-Go"><a href="#Downloading-Go" class="headerlink" title="Downloading Go"></a>Downloading Go</h2><ul>
+<li>Go to the official website of Go i.e. <a target="_blank" rel="noopener" href="https://go.dev/">https://go.dev/</a></li>
+<li>Click download</li>
+<li>Select your Operating System and download the latest version</li>
+</ul>
+<h3 id="Installing-Go-on-Different-Operating-Systems"><a href="#Installing-Go-on-Different-Operating-Systems" class="headerlink" title="Installing Go on Different Operating Systems"></a>Installing Go on Different Operating Systems</h3><ul>
+<li><strong>Windows</strong><ul>
+<li>Open the MSI file you downloaded and follow the prompts to install Go. By default, the installer will install Go to Program Files or Program Files (x86). You can change the location as needed. After installing, you will need to close and reopen any open command prompts so that changes to the environment made by the installer are reflected at the command prompt.</li>
+<li>Verify that you’ve installed Go.</li>
+<li>In Windows, click the Start menu.</li>
+<li>In the menu’s search box, type cmd, then press the Enter key.</li>
+<li>In the Command Prompt window that appears, type the following command:</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ go version</span><br></pre></td></tr></table></figure>
+<p>Confirm that the command prints the installed version of Go.</p>
+<ul>
+<li><strong>Linux</strong><br>Remove any previous Go installation by deleting the &#x2F;usr&#x2F;local&#x2F;go folder (if it exists), then extract the archive you just downloaded into &#x2F;usr&#x2F;local, creating a fresh Go tree in &#x2F;usr&#x2F;local&#x2F;go:</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">rm</span> -rf /usr/local/go &amp;&amp; tar -C /usr/local -xzf go1.22.4.linux-amd64.tar.gz</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>(You may need to run the command as root or through sudo). Do not untar the archive into an existing &#x2F;usr&#x2F;local&#x2F;go tree. This is known to produce broken Go installations.</p>
+</li>
+<li><p>Add &#x2F;usr&#x2F;local&#x2F;go&#x2F;bin to the PATH environment variable. You can do this by adding the following line to your $HOME&#x2F;.profile or &#x2F;etc&#x2F;profile (for a system-wide installation):</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:/usr/local/go/bin</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>Note: Changes made to a profile file may not apply until the next time you log into your computer. To apply the changes immediately, just run the shell commands directly or execute them from the profile using a command such as source $HOME&#x2F;.profile.</p>
+</li>
+<li><p>Verify that you’ve installed Go by opening a command prompt and typing the following command:</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ go version</span><br></pre></td></tr></table></figure>
+
+<p>Confirm that the command prints the installed version of Go.</p>
+<p><strong>Mac</strong></p>
+<ul>
+<li><p>Open the package file you downloaded and follow the prompts to install Go.</p>
+</li>
+<li><p>The package installs the Go distribution to &#x2F;usr&#x2F;local&#x2F;go. The package should put the &#x2F;usr&#x2F;local&#x2F;go&#x2F;bin directory in your PATH environment variable. You may need to restart any open Terminal sessions for the change to take effect.</p>
+</li>
+<li><p>Verify that you’ve installed Go by opening a command prompt and typing the following command:</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ go version</span><br></pre></td></tr></table></figure>
+<p>Confirm that the command prints the installed version of Go.</p>
+<h3 id="Setting-Up-VS-Code-for-Golang"><a href="#Setting-Up-VS-Code-for-Golang" class="headerlink" title="Setting Up VS Code for Golang"></a>Setting Up VS Code for Golang</h3><p><strong>Download and install vs code in your device:</strong></p>
+<ul>
+<li>For Windows -&gt; Microsoft Store</li>
+<li>For Linux -&gt; Snap Store</li>
+<li>For Mac -&gt; App Store</li>
+<li>Or else you can download it from its website: <a target="_blank" rel="noopener" href="https://code.visualstudio.com/">https://code.visualstudio.com/</a></li>
+</ul>
+<p><strong>Installing Go extention for VS code</strong></p>
+<ul>
+<li>Go to Extensions section in vs code</li>
+<li>Search: “Go”</li>
+<li>install the 1st extension named “Go” by go.dev</li>
+</ul>
+<h2 id="Getting-Started-with-GO"><a href="#Getting-Started-with-GO" class="headerlink" title="Getting Started with GO"></a>Getting Started with GO</h2><p><strong>Creating Path for GO</strong>:</p>
+<ul>
+<li>Make a new folder anywhere in your directory and name it “GO_LANG”.</li>
+<li>Drag &amp; Drop that folder in your VS code</li>
+<li>Create another new folder in that that folder and name it “ helloworld “.</li>
+<li>Create a file under that “helloworld” folder and name it “ main.go .</li>
+</ul>
+<p><strong>How to run your Go code in vs code??</strong></p>
+<ul>
+<li>Right Click on the folder which you are using.</li>
+<li>Choose “Open integrated terminal”</li>
+<li>Go to the Terminal and Type: “go run &lt;filename.go&gt;” and press enter.</li>
+</ul>
+<h3 id="Go-Mod"><a href="#Go-Mod" class="headerlink" title="Go Mod"></a>Go Mod</h3><p>The go mod command is a fundamental part of the Go Modules system. It is used to <strong>create or initialize a Go module</strong>, which is a way to manage dependencies and versioning in your Go projects.</p>
+<p>Follow the steps to initialize go mod:</p>
+<ol>
+<li><p>Right click on the folder your are in and open integrated terminal.</p>
+</li>
+<li><p>Type “go mod init <filename>“ and hit enter.</p>
+</li>
+</ol>
+<p><em><strong>You have to mod every new folder you will make</strong></em></p>
+<h3 id="Basic-Structure-of-Go"><a href="#Basic-Structure-of-Go" class="headerlink" title="Basic Structure of Go"></a>Basic Structure of Go</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//the main function</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">//your code </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Printing-“Hello-World”-in-Go"><a href="#Printing-“Hello-World”-in-Go" class="headerlink" title="Printing “Hello World” in Go."></a>Printing “Hello World” in Go.</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	fmt.Println(<span class="string">&quot;Hello World&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>The “fmt” package :- Stands for Format package. It offers a variety of functions to manipulate the format of input and output.</p>
+</li>
+<li><p>The “fmt” package contains many functions under it. Some of the most commonly used functions of the “fmt” package are :-</p>
+<ol>
+<li><p>Sprintf - uses verbs like %s (string), %d(int), %f(float), %t(bool), etc. to interpolate values into a string and returns it as a single string.</p>
+</li>
+<li><p>Printf - formats the input in the same way as Sprintf before printing it</p>
+</li>
+<li><p>Println -simply prints the arguments it receives.</p>
+</li>
+</ol>
+</li>
+</ul>
+<h2 id="Data-types-in-Go"><a href="#Data-types-in-Go" class="headerlink" title="Data types in Go."></a>Data types in Go.</h2><p>There are mainly 4 data types :- string, integer, float, boolean. They are further divided into several categories:-</p>
+<h3 id="Integers"><a href="#Integers" class="headerlink" title="Integers"></a>Integers</h3><ul>
+<li>int &#x3D; ranges from negative ∞ to positive ∞</li>
+<li>int8 &#x3D; ranges from -128 to 127</li>
+<li>int16 &#x3D; ranges from -32768 to 32767</li>
+<li>int32 &#x3D; ranges from -2147483648 to 2147483647</li>
+<li>int64 &#x3D; ranges -9223372036854775808 to 9223372036854775807</li>
+<li>uint8 &#x3D; ranges from 0 to 255</li>
+<li>uint16 &#x3D; ranges from 0 to 65535</li>
+<li>uint32 &#x3D; ranges from 0 to 4294967295</li>
+<li>uint64 &#x3D; ranges from 0 to 18446744073709551615</li>
+</ul>
+<h3 id="Float"><a href="#Float" class="headerlink" title="Float"></a>Float</h3><ul>
+<li>float32 &#x3D; all 32-bit floating point numbers.</li>
+<li>float64 &#x3D; all 64-bit floating point numbers.</li>
+</ul>
+<h3 id="Strings"><a href="#Strings" class="headerlink" title="Strings"></a>Strings</h3><ul>
+<li>string &#x3D; used for storing characters, letters, symbols, etc…</li>
+</ul>
+<h3 id="Boolean"><a href="#Boolean" class="headerlink" title="Boolean"></a>Boolean</h3><ul>
+<li>bool &#x3D; Stores either true or false value.</li>
+</ul>
+<h2 id="Packages-in-Golang"><a href="#Packages-in-Golang" class="headerlink" title="Packages in Golang"></a>Packages in Golang</h2><p><strong>Package</strong> - A package in Go is a collection of source files in the same directory that are compiled together. Packages are used to organize code and promote code reuse. Each Go program is made up of packages, and the program starts running in the main package.</p>
+<h3 id="Key-Points-about-packages-in-Golang"><a href="#Key-Points-about-packages-in-Golang" class="headerlink" title="Key Points about packages in Golang. :-"></a>Key Points about packages in Golang. :-</h3><ol>
+<li><strong>Package Declaration</strong> :- Every Go source file starts with a package declaration. This defines the package to which the file belongs.</li>
+</ol>
+<p>syntax:</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> package_name</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li><strong>Importing Packages</strong>:- To use functions, types, or variables from another packages, we need to import that package.</li>
+</ol>
+<p>syntax:</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&quot;package_name&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Variables"><a href="#Variables" class="headerlink" title="Variables"></a>Variables</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> Logintoken <span class="type">string</span> = <span class="string">&quot;zvbnm&quot;</span> <span class="comment">//Public constant</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//String values</span></span><br><span class="line">	<span class="keyword">var</span> variable1 <span class="type">string</span> = <span class="string">&quot;hello world&quot;</span></span><br><span class="line">	<span class="comment">//Integer values</span></span><br><span class="line">	<span class="keyword">var</span> variable2 <span class="type">int</span> = <span class="number">530</span></span><br><span class="line">	<span class="comment">//Float values</span></span><br><span class="line">	<span class="keyword">var</span> variable3 <span class="type">float32</span> = <span class="number">322.123144645776575675675756</span></span><br><span class="line">	<span class="keyword">var</span> variable4 <span class="type">float64</span> = <span class="number">322.123144645776575675675756</span></span><br><span class="line">	</span><br><span class="line">    <span class="comment">//default values and some alias</span></span><br><span class="line">	<span class="keyword">var</span> variable5 <span class="type">float64</span></span><br><span class="line">	<span class="keyword">var</span> variable6 <span class="type">string</span></span><br><span class="line">	<span class="keyword">var</span> variable7 <span class="type">int</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">//no var delaration style</span></span><br><span class="line">    variable8 := <span class="number">1234</span> </span><br><span class="line">    </span><br><span class="line">    <span class="comment">//Multiple variable declaration</span></span><br><span class="line">    <span class="keyword">var</span> variable9, variable10, variable11 <span class="type">string</span> = <span class="string">&quot;Shiv&quot;</span>, <span class="string">&quot;Shankar&quot;</span>, <span class="string">&quot;Bhole&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>“var” keyword is used to declare a variable.</li>
+<li>“:&#x3D;” is used for direct declaration of a variable.</li>
+<li>Default Values don’t store garbage values.<br>for eg. :- default string variables will return null value. default int&#x2F;float variables will return 0.</li>
+</ul>
+<h3 id="Printing-Strings-with-variables"><a href="#Printing-Strings-with-variables" class="headerlink" title="Printing Strings with variables"></a>Printing Strings with variables</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">var</span> name <span class="type">string</span> = <span class="string">&quot;Ganesh&quot;</span></span><br><span class="line">    <span class="keyword">var</span> age <span class="type">int</span> = <span class="number">18</span></span><br><span class="line">    fmt.Println(<span class="string">&quot;She is&quot;</span>,name ,<span class="string">&quot;of age&quot;</span>, age)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="To-Print-the-Data-Type-of-a-Given-Value"><a href="#To-Print-the-Data-Type-of-a-Given-Value" class="headerlink" title="To Print the Data Type of a Given Value"></a>To Print the Data Type of a Given Value</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    abc = <span class="number">324.5425</span></span><br><span class="line">    fmt.Printf(<span class="string">&quot;this variable is of type: %T\n&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>“%T” is used for identifying the data type</li>
+</ul>
+<h3 id="Arithmetic-Operations"><a href="#Arithmetic-Operations" class="headerlink" title="Arithmetic Operations"></a>Arithmetic Operations</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main </span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    sum := <span class="number">5</span> + <span class="number">4</span></span><br><span class="line">    sub := <span class="number">6</span> - <span class="number">2</span></span><br><span class="line">    mul := <span class="number">3</span> * <span class="number">2</span></span><br><span class="line">    div := <span class="number">10</span> / <span class="number">2</span></span><br><span class="line">    mod := <span class="number">53</span> % <span class="number">5</span></span><br><span class="line">    greater := <span class="number">4</span> &gt; <span class="number">3</span> <span class="comment">// returns boolean value i.e. True or false.</span></span><br><span class="line">    lesser := <span class="number">5</span> &lt; <span class="number">7</span> <span class="comment">// returns boolean value i.e. True or false.</span></span><br><span class="line">    equalto := <span class="number">6</span> == <span class="number">7</span> <span class="comment">// returns boolean value i.e. True or false.</span></span><br><span class="line">    notequal := <span class="number">5</span> != <span class="number">4</span> <span class="comment">// returns boolean value i.e. True or false.</span></span><br><span class="line">    greaterequal := <span class="number">8</span> &gt;= <span class="number">4</span> <span class="comment">// returns boolean value i.e. True or false.</span></span><br><span class="line">    lesserequal := <span class="number">6</span> &lt;= <span class="number">9</span> <span class="comment">// returns boolean value i.e. True or false.</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="User-Input"><a href="#User-Input" class="headerlink" title="User Input"></a>User Input</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">&quot;bufio&quot;</span></span><br><span class="line">    <span class="string">&quot;fmt&quot;</span></span><br><span class="line">    <span class="string">&quot;os&quot;</span></span><br><span class="line">)</span><br><span class="line"> <span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    reader = bufio.NewReader(os.Stdin) <span class="comment">//Stdin stands for Standard input.</span></span><br><span class="line">    fmt.Println(<span class="string">&quot;&lt;Input statement for user&gt;&quot;</span>)</span><br><span class="line">    </span><br><span class="line">    input, _ := reader.ReadString(<span class="string">&quot;\n&quot;</span>) <span class="comment">// &quot;, _&quot; is called comma ok syntax. </span></span><br><span class="line">    fmt.Println(<span class="string">&quot;Your input is, &quot;</span>, input)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>Bufio or Buffered I&#x2F;O package</strong> :- allows input and output with a buffer.</p>
+<p><strong>os package</strong> :- It allows you to access to operating system functionalities.</p>
+<p><strong>variable name.ReadString(“\n”)</strong> :- it reads the user input data in string form until the user enters the value given inside the brackets i.e. “\n” (new line) .</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Ajay Kumar Dey</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://0xakd.github.io/2024/07/03/learn-go-from-scratch/">https://0xakd.github.io/2024/07/03/learn-go-from-scratch/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2025 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/basics/"># basics</a>
+                    
+                        <a href="/tags/golang/"># golang</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2025/01/05/dynamic-memory-allocation-in-c/">Dynamic Memory Allocation in C</a>
+            
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>  Copyright © 2020-2025 Ajay Kumar Dey</span>
+    </div>
+</footer>
+
+    </div>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+
+</html>
