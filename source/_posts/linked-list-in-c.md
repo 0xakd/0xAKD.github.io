@@ -3,6 +3,7 @@ title: Linked List in C
 tags:
   - linked-list
   - dynamic-memory-allocation
+  - c-programming
 categories:
   - software
 date: 2025-01-09 17:56:20
