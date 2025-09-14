@@ -10,6 +10,7 @@ categories:
 date: 2025-09-14 11:04:30
 ---
 
+![cover pic](../images/chip8-part1/og_image.png)
 
 ## Introduction
 A Guide for beginners to understand and build a Chip-8 Emulator with C-language.
