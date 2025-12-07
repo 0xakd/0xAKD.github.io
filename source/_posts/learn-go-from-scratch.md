@@ -9,7 +9,7 @@ date: 2024-07-03 22:03:35
 ---
 
 
-![cover image](../images/learn-go-from-scratch/image.png)
+![cover image](/images/learn-go-from-scratch/image.png)
 ## How to Download and install go in your device 
 ## Downloading Go
 - Go to the official website of Go i.e. https://go.dev/

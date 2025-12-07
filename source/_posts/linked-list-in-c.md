@@ -10,9 +10,9 @@ date: 2025-01-09 17:56:20
 ---
 
 
-![cover image](../images/linked-list-in-c/image.png)
+![cover image](/images/linked-list-in-c/image.png)
 
-### What is a Linked List ??
+## What is a Linked List ??
 A **linked list** is a dynamic data structure used to store a sequence of elements. Unlike arrays, linked lists do not store elements in contiguous memory locations. Instead, each element, known as a node, consists of two parts: Data and a Pointer to the next Node.
 
 ### Components of a Linked List
@@ -29,13 +29,13 @@ Linked lists consists of 3 components :-
 
 - **Tail**: The last node of the list, which points to null.
 
-## Structure of the linked list
-![structure diagram](../images/linked-list-in-c/image2.png)
+### Structure of the linked list
+![structure diagram](/images/linked-list-in-c/image2.png)
 
 ### Making the structure of the Linked list.
 Code for making the structure of linked list.
-```C
-//Structure of Linked list.
+```c
+/*	Structure of Linked list. */
 typedef struct node{
 	int value;
 	struct node *next;
@@ -55,13 +55,15 @@ In this operation we will learn how to add more nodes to the Linked list. There 
 Insertion at head means to make a new node and add it at the beginning of the linked list i.e. make the new node the first node of the list. And make the head point to the new node and the new node to the node which was previously pointed by the head.
 
 Refer to the picture below for better understanding.
-![insertion at head](../images/linked-list-in-c/image3.png)
+![insertion at head](/images/linked-list-in-c/image3.png)
 
 As you can see in the above picture we’ve inserted a new node and made the head now pointing the new node. Lets see how we can write it in C language:
 
-```C
+```c 
+
+/*Function for inserting new node at the starting of the list.*/
 #include <stdio.h>
-//Function for inserting new node at the starting of the list.
+
 Node *insert_at_head(Node *head,int new_value){
 	Node *newnode = calloc(1,sizeof(Node));	
 	newnode -> value = new_value;
@@ -80,14 +82,16 @@ void main(){
 	
 	print_node(list1_head); //we will learn to print nodes later.
 }
+
 ```
 
 - **Insertion at tail -**
 In this, we make a new node and insert it after the last node of the linked list. And Modify the previous tail node to the new node.
-![insertion at tail](../images/linked-list-in-c/image4.png)
+![insertion at tail](/images/linked-list-in-c/image4.png)
 
 We can write it in codes as -
-```C
+```c
+
 #include <stdio.h>
 
 //Function for inserting new tail node.
@@ -114,11 +118,12 @@ void main(){
 }
 ```
 
+
 - **Insertion after any node.**
 In this, we take a new node value and a node after which we want to place the new node. And place the new node after that node and make that node point the new node and the new node point the next node.
 
 Like this,
-![insertion after node](../images/linked-list-in-c/image5.png)
+![insertion after node](/images/linked-list-in-c/image5.png)
 
 We can write this in C language as…
 ```C
@@ -188,7 +193,7 @@ Deletion here means to delete a remove a node from a linked list and free its me
 
 - **Deletion at head**
 It means to delete the first node of the linked list, and modify the head to point the next node.
-![deletion at head](../images/linked-list-in-c/image6.png)
+![deletion at head](/images/linked-list-in-c/image6.png)
 
 ```C
 #include <stdio.h>
@@ -217,7 +222,7 @@ void main(){
 - **Deletion at tail.**
 
 Deleting the last node of the linked list. We have to just free the last node and we’re done.
-![deletion at tail](../images/linked-list-in-c/image7.png)
+![deletion at tail](/images/linked-list-in-c/image7.png)
 
 Here is the code for doing that,
 ```C
@@ -260,7 +265,7 @@ void main() {
 
 - **Deleting first matching element**
 In this we’ll take an input from the user and delete the matching node from the linked list. if no node matches the input then it will delete nothing.
-![deleting first matching element](../images/linked-list-in-c/image8.png)
+![deleting first matching element](/images/linked-list-in-c/image8.png)
 
 lets write a code for that,
 ```C

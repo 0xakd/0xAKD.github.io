@@ -10,10 +10,10 @@ categories:
 date: 2025-09-14 11:04:30
 ---
 
-![cover pic](../images/chip8-part1/og_image.png)
+![cover pic](/images/chip8-part1/og_image.png)
 
 ## Introduction
-A Guide for beginners to understand and build a Chip-8 Emulator with C-language.
+A Guide foreginners to understand and build a Chip-8 Emulator with C-language.
 
 ### What is CHIP-8?
 CHIP-8 is an interpreted programming language from the mid 1970s to make it easier to program video games on early microcomputers. 
@@ -23,7 +23,7 @@ CHIP-8 is essentially a Virtual Machine, similar in concept to the Java Virtual 
 ### History of CHIP-8
 CHIP-8 was created in 1977 by RCA engineer Joseph Weisbecker to make it easier to write games on early microcomputers like the [COSMAC VIP](https://en.wikipedia.org/wiki/COSMAC_VIP) and Telmac 1800 which both are 8-bit micro-computers.
 
-![COSMAC VIP](../images/chip8-part1/RCA_Cosmac_VIP.jpg)
+![COSMAC VIP](/images/chip8-part1/RCA_Cosmac_VIP.jpg)
 <center><i>Figure 1: RCA COSMAC VIP</i></center>
 <br>
 CHIP-8 was created to make game development easier on early computers. At that time, writing games required a deep understanding of machine code, which was complicated and intimidating for beginners. Instead of programming directly in machine language for the VIP's CDP1802 processor, developers could enter hexadecimal instructions (using the VIP's hex keypad) that resembled machine code.

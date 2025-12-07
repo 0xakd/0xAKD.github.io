@@ -1,6 +1,7 @@
 ---
 title: about
 date: 2025-06-26 22:58:03
+layout: about
 ---
 
 ## About Me 

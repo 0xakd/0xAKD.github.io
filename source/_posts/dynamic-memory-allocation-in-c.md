@@ -9,7 +9,7 @@ date: 2025-01-05 16:51:34
 ---
 
 
-![cover pic](../images/dynamic-memory-allocation-in-c/coverpage.jpeg)
+![cover pic](/images/dynamic-memory-allocation-in-c/coverpage.jpeg)
 
 Before jumping to Dynamic memory allocation we need to know about how the memory is used by a program in C.
 
@@ -27,7 +27,7 @@ There are 4 memory segments :-
 - **Code** - This part of memory stores the executable code of the program.
 
 
-![Application memory](../images/dynamic-memory-allocation-in-c/image2.jpeg)
+![Application memory](/images/dynamic-memory-allocation-in-c/image2.jpeg)
 
 ### Now back to Dynamic memory allocation…
 
@@ -74,4 +74,4 @@ In C language, Dynamic memory allocation can be done by the following functions 
     + If a program attempts to access freed memory, it can result in undefined behavior, including crashes and unexpected results.
 
 Syntax of the above functions…
-![functions syntax](../images/dynamic-memory-allocation-in-c/image.png)
+![functions syntax](/images/dynamic-memory-allocation-in-c/image.png)
