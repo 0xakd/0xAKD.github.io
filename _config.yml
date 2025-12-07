@@ -16,7 +16,7 @@ timezone: ''
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
-url: https://0xAKD.github.io
+url: https://ajayk.in
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
@@ -123,14 +123,11 @@ theme: hexo-theme-Claudia
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
+
 deploy:
   type: git
-  repo: https://github.com/0xAKD/heypolygot.github.io.git
+  repo: https://github.com/0xAKD/0xAKD.github.io
   branch: gh-pages
-
-
-
-
 
 
 
