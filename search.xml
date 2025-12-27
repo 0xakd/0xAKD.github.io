@@ -4,6 +4,25 @@
   
     
     <entry>
+      <title>What is Data Engineering?</title>
+      <link href="/2025/12/27/data-engineering/"/>
+      <url>/2025/12/27/data-engineering/</url>
+      
+        <content type="html"><![CDATA[<p><img src="/images/data-engineering/What-is-Data-engineering.webp" alt="cover"></p><h2 id="What-is-Data-Engineering">What is Data Engineering??</h2><p>Data Engineering is the practice of designing and building systems for the aggregation, storage, and processing of huge amount of data to make it available for downstream users.<br><br></p><h3 id="Key-elements-of-data-engineering">Key elements of data engineering</h3><ul><li><strong>Data Extraction/collection:</strong> Process of collecting raw data from various sources. This includes everything from structured data[in tabular format] to un-structured data[text, images, etc.].</li><li><strong>Data Ingestion:</strong> The process of transferring and loading Data into a target system in a reliable and repeated way.</li><li><strong>Data Storage:</strong> Data Engineers design the necessary storage solutions to <em>Store</em> the Ingested data.</li><li><strong>Data Transformation:</strong> To make the data useful for data scientists, enabling them to perform their analysis.</li><li><strong>Data Serving:</strong> Once the data has been collected and processed, it’s delivered to the end user.<br><br></li></ul><h3 id="What-do-data-engineers-do">What do data engineers do?</h3><p>Data Engineering involves many tasks, such as:</p><ul><li>Collecting data from various sources (apps, websites, etc.)</li><li>Moving data to target destination.</li><li>Storing unorganised raw data in a structured and organised manner.</li><li>Validating and processing Big Data.</li><li>Build data pipelines.</li><li>Design Data storage systems.</li></ul><br><h3 id="Data-engineering-vs-Data-Science-vs-Data-analysis">Data engineering vs Data Science vs Data analysis</h3><p><strong>Data Engineers:</strong> Data Engineers build and maintain data infrastructures to automate data ingestion, creation, storage and processing.<br><br><strong>Data Scientists:</strong> Data Scientists machine learning models, data exploration and other technologies to predict future outcomes. It is a very code heavy role like Data Engineering.<br><br><strong>Data Analysts:</strong> Data Analysts examine large datasets to identify trends and extract insights to help organisation make data-driven decisions. They work with predefined datasets.<br></p><br><h2 id="Data-Pipelines">Data Pipelines</h2><p><img src="/images/data-engineering/data_pipeline.png" alt="data_pipeline"></p><h3 id="What-is-a-Data-Pipeline">What is a Data Pipeline</h3><p>Data pipeline is a method in which raw data from various sources is ingested, transformed and then moved to a target destination, such as data lake or data warehouse, for analysis.<br><br></p><h3 id="Types-of-Data-Pipelines">Types of Data Pipelines</h3><p>There are mainly two types of Data Pipelines:</p><ul><li><strong>Batch data pipeline:</strong> In Batch processing data pipeline, data is processed in large volumes or batches. It’s often cost-efficient and mostly used for very large amount of data.</li></ul><p>It performs a series of commands on every batch of data in sequence and gives output. after all the data processing is complete, it loads the entire batch into a cloud storage.<br><br></p><ul><li><strong>Streaming data pipeline:</strong> Streaming data pipelines processes raw data almost instantly. It processes the data in real time as it is generated. It processes data even if some data packets are lost or delayed.</li></ul><p>Streaming pipelines process a series of events for real-time analysis.<br><br><br><br></p><h2 id="Big-Data-Storage-Systems">Big Data Storage Systems</h2><p>After data is processed, it must be stored in durable, secure, and scalable storage systems for future analysis and use.<br>Two commonly used big data storage systems are data lakes and data warehouses.<br><br></p><h3 id="Data-Lake">Data Lake</h3><p>Data lake is a storage repository which is designed to store a large amount of raw data that can be structured, semi-structured, and unstructured. Once the data reaches the data lake, it can be used for machine learning or training AI models.<br><br></p><h3 id="Data-Warehouse">Data Warehouse</h3><p>A Data Warehouse is an enterprise data platform, also called Enterprise Data Warehouse (EDW). It is used to aggregate data from various sources into a central database optimised for querying and analysis of the data.<br>A Data Warehouse can store both current and historical data in once place and is built to give a long-term insight over time.</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> data-engineering </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>What is CHIP-8? A Beginner&#39;s Guide to the Classic Emulator Project</title>
       <link href="/2025/09/14/chip8-part1/"/>
       <url>/2025/09/14/chip8-part1/</url>
@@ -80,9 +99,9 @@
       
         <tags>
             
-            <tag> dynamic-memory-allocation </tag>
-            
             <tag> c-programming </tag>
+            
+            <tag> dynamic-memory-allocation </tag>
             
             <tag> linked-list </tag>
             
