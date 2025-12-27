@@ -5,7 +5,7 @@ date: 2025-12-27 15:51:49
 ---
 
 
-![cover](/images/data-engineering/What-is-Data-engineering.webp)
+![cover](/images/data-engineering/What-is-Data-engineering.jpg)
 ## What is Data Engineering??
 Data Engineering is the practice of designing and building systems for the aggregation, storage, and processing of huge amount of data to make it available for downstream users.
 <br>
